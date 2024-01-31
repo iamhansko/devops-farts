@@ -1,0 +1,14 @@
+version: '3'
+services:
+  filebrowser:
+    image: filebrowser/filebrowser:latest
+    container_name: filebrowser
+    volumes:
+      - /home/ec2-user:/srv
+      - /home/ec2-user/filebrowser/filebrowser.db:/database/filebrowser.db
+      - /home/ec2-user/filebrowser/settings.json:/config/settings.json 
+    environment:
+      - PUID=$(id -u)
+      - PGID=$(id -g)
+    ports:
+      - 8088:80
