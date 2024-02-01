@@ -44,6 +44,12 @@ EOF
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo systemctl enable --now kubelet
 kubeadm config images pull
+
+FLANNEL_VERSION=0.24.2
+mkdir /opt/bin
+curl -fsSLo /opt/bin/flanneld https://github.com/flannel-io/flannel/releases/download/v$FLANNEL_VERSION/flannel-v$FLANNEL_VERSION-linux-amd64.tar.gz
+chmod +x /opt/bin/flanneld
+
 kubeadm init --pod-network-cidr=10.244.0.0/16 --upload-certs
 
 mkdir -p $HOME/.kube
@@ -51,5 +57,6 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 export KUBECONFIG=$HOME/.kube/config
 # echo "export KUBECONFIG=$HOME/.kube/config" >> /etc/profile.d/k8s.sh
+kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl > /dev/null
 
-kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+kubectl apply -f https://github.com/flannel-io/flannel/releases/download/v$FLANNEL_VERSION/kube-flannel.yml
