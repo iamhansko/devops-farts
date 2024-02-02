@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: cockpit
+  name: cockpit-ingress
+  annotations:
+    cert-manager.io/cluster-clusterissuer: "letsencrypt-clusterissuer"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - cockpit.your.domain
+    secretName: cockpit-tls
+  rules:
+  - host: cockpit.your.domain
+    http:
+      paths:
+      - backend:
+          service:
+            name: cockpit-service
+            port:
+              number: 80
+        path: /
+        pathType: Prefix
