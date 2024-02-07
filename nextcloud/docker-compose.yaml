@@ -1,0 +1,22 @@
+version: '3'
+services:
+  nextcloud:
+    image: nextcloud/all-in-one:latest
+    container_name: nextcloud-aio-mastercontainer
+    restart: always
+    init: true
+    # environment:
+    #   - NEXTCLOUD_DATADIR=/mnt/ssd/nextcloud
+    #   - APACHE_PORT=11000
+    #   - APACHE_IP_BINDING=127.0.0.1
+    ports:
+      - '80:80'
+      - '8080:8080'
+      - '8443:8443'
+    volumes:
+      - nextcloud_aio_mastercontainer:/mnt/docker-aio-config
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    shm_size: '256m'
+volumes:
+  nextcloud_aio_mastercontainer:
+    name: nextcloud_aio_mastercontainer
