@@ -1,10 +1,3 @@
-# Jenkins
-
-## Installation
-
-[Docker](https://www.jenkins.io/doc/book/installing/docker/)
-
-```bash
 #!/bin/bash
 
 docker network create jenkins
@@ -21,4 +14,3 @@ docker run --name jenkins-blueocean --restart=on-failure --detach --network jenk
 
 # Check Initial Password
 docker exec jenkins-blueocean cat /var/jenkins_home/secrets/initialAdminPassword
-```
