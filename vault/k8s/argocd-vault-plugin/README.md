@@ -57,7 +57,7 @@ vault write auth/kubernetes/role/argocd bound_service_account_names=argocd-repo-
 exit
 
 kubectl apply -f configmap.yaml
-kubectl apply -f secrey.yaml
+kubectl apply -f secret.yaml
 kubectl edit -n argocd deployment argocd-repo-server
 # Reference : deployment.argocd-repo-server.yaml
 ```
