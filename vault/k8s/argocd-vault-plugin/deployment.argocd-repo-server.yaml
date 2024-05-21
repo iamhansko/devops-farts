@@ -106,6 +106,9 @@ spec:
         - mountPath: /usr/local/bin/argocd-vault-plugin
           name: custom-tools
           subPath: argocd-vault-plugin
+        - mountPath: /usr/local/bin/kustomize
+          name: custom-tools
+          subPath: kustomize
       # AVP Sidecar Container
       - command:
         - /var/run/argocd/argocd-cmp-server
@@ -361,9 +364,13 @@ spec:
       initContainers:
       # AVP initContainer
       - args:
-        - curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64
-          -o argocd-vault-plugin && chmod +x argocd-vault-plugin && mv argocd-vault-plugin
-          /custom-tools/
+        - curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_amd64 -o argocd-vault-plugin &&
+          chmod +x argocd-vault-plugin &&
+          mv argocd-vault-plugin /custom-tools/ &&
+          curl -L https://github.com/kubernetes-sigs/kustomize/releases/download/kustomize%2Fv${KUSTOMIZE_VERSION}/kustomize_v${KUSTOMIZE_VERSION}_linux_amd64.tar.gz -o kustomize.tar.gz && 
+          tar -xvzf  kustomize.tar.gz &&
+          chmod +x kustomize &&
+          mv kustomize /custom-tools/   
         command:
         - sh
         - -c
